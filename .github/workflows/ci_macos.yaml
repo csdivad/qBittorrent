@@ -98,6 +98,8 @@ jobs:
             https://github.com/arvidn/libtorrent.git \
             ${{ env.libtorrent_path }}
           cd ${{ env.libtorrent_path }}
+          # libtorrent ships no LibGcrypt finder, so its package config is
+          # unusable for consumers when the runner image provides libgcrypt.
           cmake \
             -B build \
             -G "Ninja" \
@@ -106,7 +108,8 @@ jobs:
             -DCMAKE_CXX_STANDARD=20 \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DBOOST_ROOT="${{ env.boost_path }}/lib/cmake" \
-            -Ddeprecated-functions=OFF
+            -Ddeprecated-functions=OFF \
+            -DCMAKE_DISABLE_FIND_PACKAGE_LibGcrypt=ON
           cmake --build build
           sudo cmake --install build
 
