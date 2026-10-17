@@ -54,6 +54,7 @@ jobs:
             brew install \
               openssl@3 zlib
             # preinstalled on the image: cmake ninja
+            echo "CMAKE_PREFIX_PATH=/opt/homebrew/opt/openssl@3" >> "$GITHUB_ENV"
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
